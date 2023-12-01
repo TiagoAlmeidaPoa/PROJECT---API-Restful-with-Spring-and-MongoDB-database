@@ -3,7 +3,6 @@ package com.almeida.springmongodb.resources;
 import com.almeida.springmongodb.domain.UserEntity;
 import com.almeida.springmongodb.dtos.UserDTO;
 import com.almeida.springmongodb.services.UserService;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +11,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/users")
