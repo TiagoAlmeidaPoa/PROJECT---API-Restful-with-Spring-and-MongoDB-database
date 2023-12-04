@@ -1,5 +1,6 @@
 package com.almeida.springmongodb.domain;
 
+import com.almeida.springmongodb.dtos.AuthorDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,6 @@ public class Post implements Serializable {
     private LocalDateTime date;
     private String title;
     private String body;
-    private UserEntity author;
+    private AuthorDTO author;
 
 }
