@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,9 +34,24 @@ public class Instantiation implements CommandLineRunner {
         userRepository.deleteAll();
         postRepository.deleteAll();
 
-        UserEntity john = new UserEntity(null, "John Carter", "johnCart@gmail.com");
-        UserEntity nedi = new UserEntity(null, "Nedi Flanders", "nediFlan@gmail.com");
-        UserEntity borns = new UserEntity(null, "Sr Borns", "borns@gmail.com");
+        UserEntity john = UserEntity.builder()
+            .id(null)
+            .name("John Carter")
+            .email("johnCart@gmail.com")
+            .posts(new ArrayList<>())
+            .build();
+        UserEntity nedi = UserEntity.builder()
+            .id(null)
+            .name("Nedi Flanders")
+            .email("nediFlan@gmail.com")
+            .posts(new ArrayList<>())
+            .build();
+        UserEntity borns = UserEntity.builder()
+            .id(null)
+            .name("Sr Borns")
+            .email("borns@gmail.com")
+            .posts(new ArrayList<>())
+            .build();
 
         userRepository.saveAll(Arrays.asList(john, nedi, borns));
 
@@ -43,5 +59,10 @@ public class Instantiation implements CommandLineRunner {
         Post post2 = new Post(null, LocalDateTime.parse("2023-12-03T10:15:30"),"Lets go New York", "i am go to travel from NY",mapper.map(nedi, AuthorDTO.class));
 
         postRepository.saveAll(List.of(post1, post2));
+
+//        nedi.setPosts(new ArrayList<>());
+
+        nedi.getPosts().addAll(List.of(post1, post2));
+        userRepository.save(nedi);
     }
 }
