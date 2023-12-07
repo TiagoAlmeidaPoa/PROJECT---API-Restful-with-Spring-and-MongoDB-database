@@ -1,5 +1,6 @@
 package com.almeida.springmongodb.resources;
 
+import com.almeida.springmongodb.domain.Post;
 import com.almeida.springmongodb.domain.UserEntity;
 import com.almeida.springmongodb.dtos.UserDTO;
 import com.almeida.springmongodb.services.UserService;
@@ -55,6 +56,12 @@ public class UserResource {
     public ResponseEntity<Void> deleteById(@PathVariable String id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(value = "/{id}/posts")
+    public ResponseEntity<List<Post>> findPosts(@PathVariable String id) {
+        UserEntity user = service.findById(id);
+        return ResponseEntity.ok().body(user.getPosts());
     }
 
 }
