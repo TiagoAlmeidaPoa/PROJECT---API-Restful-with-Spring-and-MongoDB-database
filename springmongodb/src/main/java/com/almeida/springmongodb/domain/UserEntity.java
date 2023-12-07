@@ -11,8 +11,6 @@ import java.util.List;
 
 @Document(collection = "user")
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
 public class UserEntity implements Serializable {
     @Id
@@ -21,6 +19,7 @@ public class UserEntity implements Serializable {
     private String email;
 
     @DBRef(lazy = true)
+    @Builder.Default
     private List<Post> posts = new ArrayList<>();
 
 }
