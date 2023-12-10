@@ -6,6 +6,8 @@ import com.almeida.springmongodb.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PostService {
 
@@ -15,6 +17,10 @@ public class PostService {
         return repository.findById(id)
             .orElseThrow(
                 () -> new ObjectNotFoundException("Object not found"));
+    }
+
+    public List<Post> findByTitle(String title) {
+        return repository.findByTitleContainingIgnoreCase(title);
     }
 
 }
