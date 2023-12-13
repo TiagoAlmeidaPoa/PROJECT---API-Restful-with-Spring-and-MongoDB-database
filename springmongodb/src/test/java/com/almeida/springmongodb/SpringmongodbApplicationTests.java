@@ -7,7 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class SpringmongodbApplicationTests {
 
 	@Test
-	void contextLoads() {
+	void main() {
+		SpringmongodbApplication.main(new String[] {});
 	}
 
 }
