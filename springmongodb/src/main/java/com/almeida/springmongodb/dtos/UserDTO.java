@@ -1,8 +1,8 @@
 package com.almeida.springmongodb.dtos;
 
-import com.almeida.springmongodb.domain.UserEntity;
-import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 

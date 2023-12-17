@@ -1,7 +1,6 @@
 package com.almeida.springmongodb.services;
 
 import com.almeida.springmongodb.domain.UserEntity;
-import com.almeida.springmongodb.dtos.UserDTO;
 import com.almeida.springmongodb.repositories.UserRepository;
 import com.almeida.springmongodb.services.exceptions.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
