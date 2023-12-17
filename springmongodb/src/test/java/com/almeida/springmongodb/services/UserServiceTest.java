@@ -2,6 +2,7 @@ package com.almeida.springmongodb.services;
 
 import com.almeida.springmongodb.domain.UserEntity;
 import com.almeida.springmongodb.repositories.UserRepository;
+import com.almeida.springmongodb.services.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,6 +24,7 @@ class UserServiceTest {
     public static final String ID = UUID.randomUUID().toString();
     public static final String NAME = "Hommer Simpsons";
     public static final String EMAIL = "hommer@gmail.com.br";
+    public static final String OBJECT_NOT_FOUND = "Object not found";
     @Mock
     private UserRepository repository;
 
@@ -45,8 +48,21 @@ class UserServiceTest {
         assertEquals(NAME, response.getName());
         assertEquals(EMAIL, response.getEmail());
     }
+
+    @Test
+    void whenFindByIdThenReturnObjectNotFoundException() {
+        when(repository.findById(anyString())).thenThrow(new ObjectNotFoundException(OBJECT_NOT_FOUND));
+        
+        try {
+            service.findById(ID);
+        } catch(Exception ex) {
+            assertEquals(ObjectNotFoundException.class, ex.getClass());
+            assertEquals(OBJECT_NOT_FOUND, ex.getMessage());
+        }
+    }
     @Test
     void findAll() {
+
     }
     @Test
     void created() {
