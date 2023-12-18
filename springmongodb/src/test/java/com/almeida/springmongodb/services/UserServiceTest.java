@@ -25,6 +25,7 @@ class UserServiceTest {
     public static final String NAME = "Hommer Simpsons";
     public static final String EMAIL = "hommer@gmail.com.br";
     public static final String OBJECT_NOT_FOUND = "Object not found";
+    public static final int INDEX = 0;
     @Mock
     private UserRepository repository;
 
@@ -61,8 +62,17 @@ class UserServiceTest {
         }
     }
     @Test
-    void findAll() {
+    void whenFindAllThenReturnAnUserList() {
+        when(repository.findAll()).thenReturn(List.of(user));
 
+        List<UserEntity> response = service.findAll();
+
+        assertNotNull(response);
+        assertEquals(1, response.size());
+        assertEquals(UserEntity.class, response.get(INDEX).getClass());
+        assertEquals(ID, response.get(INDEX).getId());
+        assertEquals(NAME, response.get(INDEX).getName());
+        assertEquals(EMAIL, response.get(INDEX).getEmail());
     }
     @Test
     void created() {
