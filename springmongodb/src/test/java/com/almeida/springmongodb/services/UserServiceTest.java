@@ -16,6 +16,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -75,7 +76,16 @@ class UserServiceTest {
         assertEquals(EMAIL, response.get(INDEX).getEmail());
     }
     @Test
-    void created() {
+    void whenCreatedThenReturnSuccess() {
+        when(repository.save(any())).thenReturn(user);
+
+        UserEntity response = service.created(user);
+
+        assertNotNull(response);
+        assertEquals(UserEntity.class, response.getClass());
+        assertEquals(ID, response.getId());
+        assertEquals(NAME, response.getName());
+        assertEquals(EMAIL, response.getEmail());
     }
 
     @Test
