@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +30,8 @@ class UserServiceTest {
     public static final int INDEX = 0;
     @Mock
     private UserRepository repository;
+    @Mock
+    private ModelMapper mapper;
 
     @InjectMocks
     private UserService service;
@@ -89,7 +92,17 @@ class UserServiceTest {
     }
 
     @Test
-    void update() {
+    void whenUpdateThenReturnSuccess() {
+        when(repository.save(any())).thenReturn(user);
+        when(repository.findById(anyString())).thenReturn(Optional.ofNullable(user));
+
+        UserEntity response = service.update(user);
+
+        assertNotNull(response);
+        assertEquals(UserEntity.class, response.getClass());
+        assertEquals(ID, response.getId());
+        assertEquals(NAME, response.getName());
+        assertEquals(EMAIL, response.getEmail());
     }
 
     @Test
