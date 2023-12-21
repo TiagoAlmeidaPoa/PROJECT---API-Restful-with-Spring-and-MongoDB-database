@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
@@ -106,7 +106,25 @@ class UserServiceTest {
     }
 
     @Test
-    void delete() {
+    void deleteWithSuccess() {
+        when(repository.findById(anyString())).thenReturn(Optional.ofNullable(user));
+        doNothing().when(repository).deleteById(anyString());
+
+        service.delete(ID);
+
+        verify(repository, times(1)).deleteById(anyString());
+    }
+
+    @Test
+    void deleteWithObjectNotFound() {
+        when(repository.findById(anyString())).thenThrow(new ObjectNotFoundException(OBJECT_NOT_FOUND));
+
+        try{
+            service.delete(ID);
+        }catch (Exception e) {
+            assertEquals(ObjectNotFoundException.class, e.getClass());
+            assertEquals(OBJECT_NOT_FOUND, e.getMessage());
+        }
     }
 
     private void startUser() {
@@ -115,7 +133,5 @@ class UserServiceTest {
             .name(NAME)
             .email(EMAIL)
             .build();
-
-
     }
 }
