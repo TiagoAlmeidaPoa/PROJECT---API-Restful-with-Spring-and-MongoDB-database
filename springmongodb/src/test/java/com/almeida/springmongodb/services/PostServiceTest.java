@@ -15,10 +15,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
 class PostServiceTest {
     public static final String ID = UUID.randomUUID().toString();
@@ -38,7 +42,7 @@ class PostServiceTest {
 
     @Test
     void whenFindByIdThenReturnAnUserInstance() {
-        Mockito.when(repository.findById(Mockito.anyString())).thenReturn(Optional.ofNullable(post));
+        when(repository.findById(anyString())).thenReturn(Optional.ofNullable(post));
 
         Post response = service.findById(ID);
 
@@ -50,7 +54,16 @@ class PostServiceTest {
     }
 
     @Test
-    void findByTitle() {
+    void whenFindByTitleThanReturnAListPosts() {
+        when(repository.searchTitle(anyString())).thenReturn(List.of(post));
+
+        List<Post> response = service.findByTitle("title");
+
+        assertNotNull(response);
+        assertEquals(Post.class, response.get(0).getClass());
+        assertEquals(ID, response.get(0).getId());
+        assertEquals(BODY, response.get(0).getBody());
+        assertEquals(AUTHOR_NAME, response.get(0).getAuthor().getName());
     }
 
     @Test
