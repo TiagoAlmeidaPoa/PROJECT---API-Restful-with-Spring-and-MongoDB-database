@@ -14,12 +14,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -67,13 +65,23 @@ class PostServiceTest {
     }
 
     @Test
-    void fullSearch() {
+    void WhenfullSearchThenReturnAListPost() {
+        when(repository.fullSearch(anyString(), any(), any())).thenReturn(List.of(post));
+
+        List<Post> response = service.fullSearch("title", new Date(), new Date());
+
+        assertNotNull(response);
+        assertEquals(Post.class, response.get(0).getClass());
+        assertEquals(ID, response.get(0).getId());
+        assertEquals(BODY, response.get(0).getBody());
+        assertEquals(AUTHOR_NAME, response.get(0).getAuthor().getName());
     }
 
     private void startPost(){
         post = Post.builder()
             .id(ID)
             .title("test title")
+            .date(LocalDateTime.parse("2024-01-03T10:15:30"))
             .author(new AuthorDTO(ID, AUTHOR_NAME))
             .body(BODY)
             .comments(new ArrayList<>())
